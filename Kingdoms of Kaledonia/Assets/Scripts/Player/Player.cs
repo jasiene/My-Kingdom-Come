@@ -4,16 +4,21 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
 	//================================================================================================
-	//[PLAYER VARIABLES]//
+	//[Player Variables]//
 	//================================================================================================
-	public string playerName;
-	public Color playerColor;
+	public string name;
+	public bool isHuman;
+
+	public bool isInDirectMode; //check to see if player is directly controlling a character or not
+	public bool isPlacingStructure; //check if player is currently in structure placement mode
+
+	public Color color;
 	//================================================================================================
 
 
 
 	//================================================================================================
-	//[AWAKE]// --- Called before Start, use to initialise variables before game
+	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
 	void Awake () {
 
@@ -23,7 +28,7 @@ public class Player : MonoBehaviour {
 
 
 	//================================================================================================
-	//[START]// --- Called before Update, used to pass any information after all initialisation
+	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	void Start () {
 	
@@ -33,7 +38,7 @@ public class Player : MonoBehaviour {
 
 
 	//================================================================================================
-	//[UPDATE]// --- Called every frame to implement game behaviour
+	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
 	void Update () {
 		
