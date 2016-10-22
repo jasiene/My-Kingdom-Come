@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using GameHelper;
 
 [RequireComponent(typeof (Player))] //Unity specific, forces the object that uses PlayerInput to also attach a Player component (because we need one to have player input)
 public class PlayerInput : MonoBehaviour {
@@ -8,7 +9,7 @@ public class PlayerInput : MonoBehaviour {
 	//[PlayerInput Variables]//
 	//================================================================================================
 	public Player player;
-	public Camera camera;
+	public Transform plyCamera;
 	//================================================================================================
 
 
@@ -17,7 +18,7 @@ public class PlayerInput : MonoBehaviour {
 	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
 	void Awake () {
-		
+
 	}
 	//================================================================================================
 
@@ -28,7 +29,7 @@ public class PlayerInput : MonoBehaviour {
 	//================================================================================================
 	void Start () {
 		player = transform.GetComponent<Player> ();
-		camera = Camera.main; //In singleplayer okay to use Camera.main as there is only one, in networked game we need multiple cameras though, havent looked into this yet
+		plyCamera = transform.FindChild ("Main Camera");
 	}
 	//================================================================================================
 
@@ -61,6 +62,36 @@ public class PlayerInput : MonoBehaviour {
 	//[RTSModeCameraMovement]// --- Camera movement controls when in RTS mode
 	//================================================================================================
 	private void RTSModeCameraMovement () {
+		
+		float mouseX = Input.mousePosition.x;
+		float mouseY = Input.mousePosition.y;
+		Vector3 cameraMoveToPosition = new Vector3 (0, 0, 0);
+		float cameraMovementSpeed = GlobalVariables.CAMERA_MOVEMENT_SPEED;
+
+		//If SHIFT key is down, move camera 4 times quicker with arrow keys, else move it at default speed
+		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+			cameraMovementSpeed = GlobalVariables.CAMERA_MOVEMENT_SPEED * 4;
+		} else {
+			cameraMovementSpeed = GlobalVariables.CAMERA_MOVEMENT_SPEED;
+		}
+
+		//Vertical camera movement
+		float moveDirectionHorizontal = Input.GetAxis("Horizontal");
+		float moveDirectionVertical = Input.GetAxis("Vertical");
+
+		if (Input.GetKey (KeyCode.A)) {
+			plyCamera.transform.Translate(Vector3.right * cameraMovementSpeed * moveDirectionHorizontal * Time.deltaTime);
+		}else if(Input.GetKey(KeyCode.D)){
+			plyCamera.transform.Translate(Vector3.left * cameraMovementSpeed * -moveDirectionHorizontal * Time.deltaTime);
+		}
+
+		//Horizontal camera movement
+		if (Input.GetKey (KeyCode.W)) {
+			plyCamera.transform.Translate(Vector3.forward * cameraMovementSpeed * moveDirectionVertical * Time.deltaTime);
+		}else if(Input.GetKey(KeyCode.S)){
+			plyCamera.transform.Translate(Vector3.back * cameraMovementSpeed * -moveDirectionVertical * Time.deltaTime);
+		}
+
 
 	}
 	//================================================================================================

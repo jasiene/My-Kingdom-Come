@@ -1,17 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : Entity {
+public class LivingEntity : Entity, IKillable {
 
 	//================================================================================================
-	//[Player Variables]//
+	//[Living Entity Variables]//
 	//================================================================================================
-	public bool isHuman;
-
-	public bool isInDirectMode; //check to see if player is directly controlling a character or not
-	public bool isPlacingStructure; //check if player is currently in structure placement mode
-
-	public Color color;
+	public float baseHealth;
+	public float curHealth;
 	//================================================================================================
 
 
@@ -30,7 +26,7 @@ public class Player : Entity {
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	protected override void Start () {
-	
+
 	}
 	//================================================================================================
 
@@ -40,8 +36,13 @@ public class Player : Entity {
 	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
 	protected override void Update () {
-		
+
 	}
 	//================================================================================================
+
+
+	public void Kill(){
+
+	}
 
 }
