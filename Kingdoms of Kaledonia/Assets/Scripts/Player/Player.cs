@@ -6,6 +6,7 @@ public class Player : Entity {
 	//================================================================================================
 	//[Player Variables]//
 	//================================================================================================
+	public string plyName;
 	public bool isHuman;
 
 	public bool isInDirectMode; //check to see if player is directly controlling a character or not
