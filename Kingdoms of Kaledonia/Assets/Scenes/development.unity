@@ -93,8 +93,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 140363775}
-  - 114: {fileID: 140363774}
   - 114: {fileID: 140363776}
+  - 114: {fileID: 140363774}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -110,14 +110,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 140363773}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e891cbb4f0c9e924f916eedc99cbe054, type: 3}
+  m_Script: {fileID: 11500000, guid: d82ece0f3d746fe449ff2ae0709db18e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entName: 
-  isHuman: 1
-  isInDirectMode: 0
-  isPlacingStructure: 0
-  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &140363775
 Transform:
   m_ObjectHideFlags: 0
@@ -125,7 +120,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 140363773}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -140,11 +135,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 140363773}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 233e934d562ec124d8ac47833ea496a9, type: 3}
+  m_Script: {fileID: 11500000, guid: ff9296bc6f35c174eab2bc7f16bbae3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 140363774}
-  plyCamera: {fileID: 1830083673}
+  entName: player
+  plyName: 
+  isHuman: 1
+  isInDirectMode: 0
+  isPlacingStructure: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &822001600
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +321,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: bd5efb8d9f34107459180f05982b3739, type: 2}
+  - {fileID: 2100000, guid: 20c252f7885858c4b9f8f00e4ac867a3, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -392,7 +391,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1830083672}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.260359, y: 13.316973, z: -12.672447}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
