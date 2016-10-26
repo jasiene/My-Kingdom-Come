@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LivingEntity : Entity, IKillable, IDamageable<float> {
+public class Character : LivingEntity {
 
 	//================================================================================================
-	//[Living Entity Variables]//
+	//[Character Variables]//
 	//================================================================================================
-	public float baseHealth;
-	public float curHealth;
+	public string characterName;
 	//================================================================================================
 
 
@@ -40,13 +39,5 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 	}
 	//================================================================================================
 
-
-	public void Kill(){
-
-	}
-
-	public void TakeDamage(float damage){
-
-	}
 
 }

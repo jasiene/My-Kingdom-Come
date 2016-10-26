@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LivingEntity : Entity, IKillable, IDamageable<float> {
+public class UnitsManager : MonoBehaviour{
 
 	//================================================================================================
-	//[Living Entity Variables]//
+	//[Units Manager Variables]//
 	//================================================================================================
-	public float baseHealth;
-	public float curHealth;
+	private Player player;
 	//================================================================================================
 
 
@@ -15,7 +14,7 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 	//================================================================================================
 	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
-	protected override void Awake () {
+	protected virtual void Awake () {
 
 	}
 	//================================================================================================
@@ -25,8 +24,8 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 	//================================================================================================
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
-	protected override void Start () {
-
+	protected virtual void Start () {
+		player = transform.GetComponentInParent<Player> ();
 	}
 	//================================================================================================
 
@@ -35,18 +34,9 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 	//================================================================================================
 	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
-	protected override void Update () {
+	protected virtual void Update () {
 
 	}
 	//================================================================================================
-
-
-	public void Kill(){
-
-	}
-
-	public void TakeDamage(float damage){
-
-	}
 
 }

@@ -77,16 +77,16 @@ public class PlayerInput : MonoBehaviour {
 		float moveDirectionVertical = Input.GetAxisRaw("Vertical");
 
 		if (Input.GetKey (KeyCode.A)) {
-			transform.Translate(Vector3.right * cameraMovementSpeed * moveDirectionHorizontal * Time.deltaTime);
+			plyCamera.Translate(Vector3.right * cameraMovementSpeed * moveDirectionHorizontal * Time.deltaTime);
 		}else if(Input.GetKey(KeyCode.D)){
-			transform.Translate(Vector3.left * cameraMovementSpeed * -moveDirectionHorizontal * Time.deltaTime);
+			plyCamera.Translate(Vector3.left * cameraMovementSpeed * -moveDirectionHorizontal * Time.deltaTime);
 		}
 
 		//Horizontal camera movement
 		if (Input.GetKey (KeyCode.W)) {
-			transform.Translate(Vector3.forward * cameraMovementSpeed * moveDirectionVertical * Time.deltaTime);
+			plyCamera.Translate(Vector3.forward * cameraMovementSpeed * moveDirectionVertical * Time.deltaTime);
 		}else if(Input.GetKey(KeyCode.S)){
-			transform.Translate(Vector3.back * cameraMovementSpeed * -moveDirectionVertical * Time.deltaTime);
+			plyCamera.Translate(Vector3.back * cameraMovementSpeed * -moveDirectionVertical * Time.deltaTime);
 		}
 
 	}
@@ -102,9 +102,9 @@ public class PlayerInput : MonoBehaviour {
 		float cameraRotationSpeed = GlobalVariables.CAMERA_ROTATION_SPEED;
 
 		if (Input.GetKey (KeyCode.Q)) {
-			transform.Rotate (Vector3.up * -cameraRotationSpeed * Time.deltaTime, Space.World);
+			plyCamera.Rotate (Vector3.up * -cameraRotationSpeed * Time.deltaTime, Space.World);
 		} else if (Input.GetKey (KeyCode.E)) {
-			transform.Rotate (Vector3.up * cameraRotationSpeed * Time.deltaTime, Space.World);
+			plyCamera.Rotate (Vector3.up * cameraRotationSpeed * Time.deltaTime, Space.World);
 		}
 
 	}
@@ -123,13 +123,13 @@ public class PlayerInput : MonoBehaviour {
 
 		//zoom in / down
 		if (mouseScrollWheel > 0) {
-			if(transform.position.y >= GlobalVariables.CAMERA_MIN_HEIGHT){
-				transform.Translate(Vector3.up * cameraScrollZoomSpeed * -mouseScrollWheel * Time.deltaTime);
+			if(plyCamera.position.y >= GlobalVariables.CAMERA_MIN_HEIGHT){
+				plyCamera.Translate(Vector3.up * cameraScrollZoomSpeed * -mouseScrollWheel * Time.deltaTime);
 			}
 		//zoom out / up
 		}else if(mouseScrollWheel < 0){
-			if(transform.position.y <= GlobalVariables.CAMERA_MAX_HEIGHT){
-				transform.Translate(Vector3.down * cameraScrollZoomSpeed * mouseScrollWheel * Time.deltaTime);
+			if(plyCamera.position.y <= GlobalVariables.CAMERA_MAX_HEIGHT){
+				plyCamera.Translate(Vector3.down * cameraScrollZoomSpeed * mouseScrollWheel * Time.deltaTime);
 			}
 		}
 			

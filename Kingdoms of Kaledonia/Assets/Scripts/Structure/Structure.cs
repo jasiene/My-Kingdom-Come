@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LivingEntity : Entity, IKillable, IDamageable<float> {
+public class Structure : Entity{
 
 	//================================================================================================
-	//[Living Entity Variables]//
+	//[Structure Variables]//
 	//================================================================================================
 	public float baseHealth;
 	public float curHealth;
@@ -26,7 +26,7 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	protected override void Start () {
-
+		
 	}
 	//================================================================================================
 
@@ -39,14 +39,5 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 
 	}
 	//================================================================================================
-
-
-	public void Kill(){
-
-	}
-
-	public void TakeDamage(float damage){
-
-	}
 
 }
