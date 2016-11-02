@@ -8,6 +8,8 @@ public class HUD : MonoBehaviour {
 	//================================================================================================
 	Player player;
 
+	public string str = "none";
+
 	[HideInInspector] private static float TOP_BAR_HEIGHT = 32f;
 	[HideInInspector] private static float BOTTOM_BAR_HEIGHT = 96f;
 	//================================================================================================
@@ -67,12 +69,22 @@ public class HUD : MonoBehaviour {
 		GUI.BeginGroup (new Rect(0, 0, Screen.width, Screen.height));
 
 		GUI.Box (new Rect (0, 0, Screen.width, TOP_BAR_HEIGHT), "");
-		GUI.Label (new Rect (4, 4, 128, 24), player.plyName);
+		GUI.Label (new Rect (4, 4, 128, 24), str);
 
 		GUI.Box (new Rect (0, Screen.height - BOTTOM_BAR_HEIGHT, Screen.width, BOTTOM_BAR_HEIGHT), "");
 
 		GUI.EndGroup();
 
+	}
+	//================================================================================================
+
+
+
+	//================================================================================================
+	//[MouseOutsideHUD]// --- Camera movement controls when in direct mode
+	//================================================================================================
+	public bool IsMouseOutsideHUD () {
+		return (Input.mousePosition.y >= BOTTOM_BAR_HEIGHT && Input.mousePosition.y <= Screen.height - TOP_BAR_HEIGHT);
 	}
 	//================================================================================================
 

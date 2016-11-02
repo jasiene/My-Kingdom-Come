@@ -7,6 +7,9 @@ public class Player : Entity {
 	//[Player Variables]//
 	//================================================================================================
 	public string plyName;
+
+	public HUD hud;
+
 	public bool isHuman;
 
 	public bool isInDirectMode; //check to see if player is directly controlling a character or not
@@ -31,7 +34,7 @@ public class Player : Entity {
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	protected override void Start () {
-	
+		hud = transform.GetComponent<HUD> ();
 	}
 	//================================================================================================
 
