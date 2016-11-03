@@ -7,6 +7,9 @@ public class Entity : MonoBehaviour {
 	//[Entity Variables]//
 	//================================================================================================
 	public string entName;
+	public bool isSelected;
+
+	private Projector projector;
 	//================================================================================================
 
 
@@ -25,7 +28,14 @@ public class Entity : MonoBehaviour {
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	protected virtual void Start () {
-
+		projector = transform.FindChild ("Projection").GetComponentInChildren<Projector> ();
+		if (transform.GetComponentInParent<UnitsManager> ().GetComponentInParent<Player> () != null) {
+			Player ply = transform.GetComponentInParent<UnitsManager> ().GetComponentInParent<Player> ();
+			projector.material.color = ply.color;
+		} else if (transform.GetComponentInParent<StructuresManager> ().GetComponentInParent<Player> () != null) {
+			Player ply = transform.GetComponentInParent<StructuresManager> ().GetComponentInParent<Player> ();
+			projector.material.color = ply.color;
+		}
 	}
 	//================================================================================================
 
@@ -36,6 +46,16 @@ public class Entity : MonoBehaviour {
 	//================================================================================================
 	protected virtual void Update () {
 
+	}
+	//================================================================================================
+
+
+	//================================================================================================
+	//[UpdateSelection]//
+	//================================================================================================
+	public void ChangeSelection () {
+		projector.enabled = !projector.enabled;
+		isSelected = !isSelected;
 	}
 	//================================================================================================
 

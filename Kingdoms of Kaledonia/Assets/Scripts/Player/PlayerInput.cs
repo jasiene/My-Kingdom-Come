@@ -155,8 +155,16 @@ public class PlayerInput : MonoBehaviour {
 					Entity ent = objectClicked.GetComponentInParent<Entity> ();
 
 					if (ent) {
-						player.hud.str = ent.entName;
+						if (ent.isSelected) {
+							player.selectedEntities.Remove (ent.GetInstanceID ());
+							print ("removed");
+						} else {
+							player.selectedEntities.Add (ent.GetInstanceID (), ent);
+							print ("added");
+						}
+						ent.ChangeSelection ();
 					}
+
 				}
 
 			}

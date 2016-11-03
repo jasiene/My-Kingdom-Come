@@ -15,7 +15,7 @@ public class Yeoman : Character {
 	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
 	protected override void Awake () {
-
+		base.Awake ();
 	}
 	//================================================================================================
 
@@ -25,7 +25,7 @@ public class Yeoman : Character {
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	protected override void Start () {
-
+		base.Start ();
 	}
 	//================================================================================================
 
@@ -35,7 +35,7 @@ public class Yeoman : Character {
 	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
 	protected override void Update () {
-
+		base.Update ();
 	}
 	//================================================================================================
 
