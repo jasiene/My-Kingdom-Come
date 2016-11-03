@@ -1,4 +1,6 @@
-﻿Shader "Unlit/ProjectorShader"
+﻿//CREDIT TO http://hyunkell.com/blog/rts-style-unit-selection-in-unity-5/
+
+Shader "Unlit/ProjectorShader"
 {
 	Properties {
 		_Color ("Tint Color", Color) = (1,1,1,1)

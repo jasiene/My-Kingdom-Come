@@ -50,4 +50,35 @@ public class Player : Entity {
 	}
 	//================================================================================================
 
+
+	//================================================================================================
+	//[DeselectAllEntities]// --- Called every frame to implement game behaviour
+	//================================================================================================
+	public void DeselectAllEntities () {
+		foreach(DictionaryEntry pair in selectedEntities){
+			Entity ent = (Entity)pair.Value;
+			if (ent) {
+				ent.ChangeSelection (this, false, false);
+			}
+		}
+		selectedEntities.Clear ();
+	}
+	//================================================================================================
+
+
+
+	//================================================================================================
+	//[DeselectAllEntities]// --- Called every frame to implement game behaviour
+	//================================================================================================
+	public bool CheckIfStructureIsSelected () {
+		foreach(DictionaryEntry pair in selectedEntities){
+			Entity ent = (Entity)pair.Value;
+			if (ent.GetComponentInChildren<Structure>()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	//================================================================================================
+
 }

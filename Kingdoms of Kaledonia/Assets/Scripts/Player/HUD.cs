@@ -11,7 +11,7 @@ public class HUD : MonoBehaviour {
 	public string str = "none";
 
 	[HideInInspector] private static float TOP_BAR_HEIGHT = 32f;
-	[HideInInspector] private static float BOTTOM_BAR_HEIGHT = 96f;
+	[HideInInspector] private static float BOTTOM_BAR_HEIGHT = 144f;
 	//================================================================================================
 
 
@@ -67,12 +67,42 @@ public class HUD : MonoBehaviour {
 	private void DrawRTSModeHUD () {
 
 		GUI.BeginGroup (new Rect(0, 0, Screen.width, Screen.height));
-
+		//================================================================================================
+		//================================================================================================
+		//=================================[TOP BAR]======================================================
 		GUI.Box (new Rect (0, 0, Screen.width, TOP_BAR_HEIGHT), "");
-		GUI.Label (new Rect (4, 4, 128, 24), str);
+		//================================================================================================
+		//================================================================================================
+		//================================[BOTTOM BAR]====================================================
+		GUI.Box (new Rect (0, Screen.height - Screen.width/7, Screen.width/7, Screen.width/7), "Entity Info");
+		GUI.Box (new Rect (Screen.width/7, Screen.height - BOTTOM_BAR_HEIGHT, Screen.width/7*2, BOTTOM_BAR_HEIGHT), "Entity Commands/Player Actions");
+		GUI.Box (new Rect (Screen.width/7*3, Screen.height - BOTTOM_BAR_HEIGHT, Screen.width/7*3, BOTTOM_BAR_HEIGHT), "World Stats/Politics (unsure as of yet)");
+		GUI.Box (new Rect (Screen.width/7*6, Screen.height - Screen.width/7, Screen.width/7+1, Screen.width/7), "Mini Map");
 
-		GUI.Box (new Rect (0, Screen.height - BOTTOM_BAR_HEIGHT, Screen.width, BOTTOM_BAR_HEIGHT), "");
 
+
+
+
+		/*
+		str = "";
+		GUI.Box (new Rect (0, Screen.height - BOTTOM_BAR_HEIGHT, Screen.width/3, BOTTOM_BAR_HEIGHT), "");
+		foreach(DictionaryEntry pair in player.selectedEntities){
+			Entity ent = (Entity)pair.Value;
+			if (ent) {
+				if (ent.GetComponentInChildren<Structure> ()) {
+					str = str + ent.GetComponentInChildren<Structure> ().structureName + ", ";
+				} else if (ent.GetComponentInChildren<Character> ()) {
+					str = str + ent.GetComponentInChildren<Character> ().characterName + ", ";
+				} else {
+					str = str + ent.entName + ", ";
+				}
+			}
+		}
+		GUI.Label (new Rect (4, Screen.height - BOTTOM_BAR_HEIGHT + 4, Screen.width/3 - 8, 24), str);
+		*/
+		//================================================================================================
+		//================================================================================================
+		//================================================================================================
 		GUI.EndGroup();
 
 	}

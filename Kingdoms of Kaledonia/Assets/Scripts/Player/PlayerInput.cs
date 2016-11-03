@@ -155,14 +155,28 @@ public class PlayerInput : MonoBehaviour {
 					Entity ent = objectClicked.GetComponentInParent<Entity> ();
 
 					if (ent) {
-						if (ent.isSelected) {
-							player.selectedEntities.Remove (ent.GetInstanceID ());
-							print ("removed");
+						
+						if (Input.GetKey (KeyCode.LeftControl)) {
+							
+							if (ent.GetComponentInChildren<Structure> ()) {
+								player.DeselectAllEntities ();
+								ent.ChangeSelection (player, true);
+							} else {
+								if (player.CheckIfStructureIsSelected()) {
+									player.DeselectAllEntities ();
+								}
+								ent.ChangeSelection (player, true);
+							}
+
 						} else {
-							player.selectedEntities.Add (ent.GetInstanceID (), ent);
-							print ("added");
+							
+							player.DeselectAllEntities ();
+							ent.ChangeSelection (player, true);
+
 						}
-						ent.ChangeSelection ();
+
+					} else {
+						player.DeselectAllEntities ();
 					}
 
 				}

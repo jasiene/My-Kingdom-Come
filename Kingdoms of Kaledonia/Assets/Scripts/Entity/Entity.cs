@@ -29,10 +29,10 @@ public class Entity : MonoBehaviour {
 	//================================================================================================
 	protected virtual void Start () {
 		projector = transform.FindChild ("Projection").GetComponentInChildren<Projector> ();
-		if (transform.GetComponentInParent<UnitsManager> ().GetComponentInParent<Player> () != null) {
+		if (transform.GetComponentInParent<UnitsManager> () != null) {
 			Player ply = transform.GetComponentInParent<UnitsManager> ().GetComponentInParent<Player> ();
 			projector.material.color = ply.color;
-		} else if (transform.GetComponentInParent<StructuresManager> ().GetComponentInParent<Player> () != null) {
+		} else if (transform.GetComponentInParent<StructuresManager> () != null) {
 			Player ply = transform.GetComponentInParent<StructuresManager> ().GetComponentInParent<Player> ();
 			projector.material.color = ply.color;
 		}
@@ -51,11 +51,35 @@ public class Entity : MonoBehaviour {
 
 
 	//================================================================================================
-	//[UpdateSelection]//
+	//[ChangeSelection]//
 	//================================================================================================
-	public void ChangeSelection () {
+	public void ChangeSelection (Player plyWhoPressed, bool alterPlayerSelectedEntities) {
 		projector.enabled = !projector.enabled;
 		isSelected = !isSelected;
+		if (alterPlayerSelectedEntities) {
+			if (isSelected) {
+				plyWhoPressed.selectedEntities.Add (this.GetInstanceID (), this);
+			} else {
+				plyWhoPressed.selectedEntities.Remove (this.GetInstanceID ());
+			}
+		}
+	}
+	//================================================================================================
+
+
+	//================================================================================================
+	//[ChangeSelection]//
+	//================================================================================================
+	public void ChangeSelection (Player plyWhoPressed, bool alterPlayerSelectedEntities, bool setBool) {
+		projector.enabled = setBool;
+		isSelected = setBool;
+		if (alterPlayerSelectedEntities) {
+			if (isSelected) {
+				plyWhoPressed.selectedEntities.Add (this.GetInstanceID (), this);
+			} else {
+				plyWhoPressed.selectedEntities.Remove (this.GetInstanceID ());
+			}
+		}
 	}
 	//================================================================================================
 
