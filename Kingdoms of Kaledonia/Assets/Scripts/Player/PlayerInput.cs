@@ -143,6 +143,37 @@ public class PlayerInput : MonoBehaviour {
 	//================================================================================================
 	private void RTSModeMouseActivity () {
 
+		//LEFT CLICK
+		if (Input.GetMouseButtonDown (0)) {
+			if (player.hud.IsMouseOutsideHUD ()) {
+				
+				Vector3 worldPositionClicked = WorldInteraction.Find3DVectorAt2DPoint (Input.mousePosition);
+				GameObject objectClicked = WorldInteraction.FindObjectAt2DPoint (Input.mousePosition);
+
+				if (objectClicked && worldPositionClicked != GlobalVariables.UNREACHABLE_VECTOR) {
+					
+					Entity ent = objectClicked.GetComponentInParent<Entity> ();
+
+					if (ent) {
+						if (ent.isSelected) {
+							player.selectedEntities.Remove (ent.GetInstanceID ());
+							print ("removed");
+						} else {
+							player.selectedEntities.Add (ent.GetInstanceID (), ent);
+							print ("added");
+						}
+						ent.ChangeSelection ();
+					}
+
+				}
+
+			}
+		//RIGHT CLICK
+		}else if(Input.GetMouseButtonDown (1)) {
+			if (player.hud.IsMouseOutsideHUD ()) {
+
+			}
+		}
 	}
 	//================================================================================================
 

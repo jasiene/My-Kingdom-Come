@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 
 public class Player : Entity {
 
@@ -7,12 +9,15 @@ public class Player : Entity {
 	//[Player Variables]//
 	//================================================================================================
 	public string plyName;
-	public bool isHuman;
 
+	public HUD hud;
+	public Color color;
+
+	public bool isHuman;
 	public bool isInDirectMode; //check to see if player is directly controlling a character or not
 	public bool isPlacingStructure; //check if player is currently in structure placement mode
 
-	public Color color;
+	public OrderedDictionary selectedEntities = new OrderedDictionary();
 	//================================================================================================
 
 
@@ -31,7 +36,7 @@ public class Player : Entity {
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	protected override void Start () {
-	
+		hud = transform.GetComponent<HUD> ();
 	}
 	//================================================================================================
 

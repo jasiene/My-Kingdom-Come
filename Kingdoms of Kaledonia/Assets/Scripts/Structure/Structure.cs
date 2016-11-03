@@ -16,7 +16,7 @@ public class Structure : Entity{
 	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
 	protected override void Awake () {
-
+		base.Awake ();
 	}
 	//================================================================================================
 
@@ -26,7 +26,7 @@ public class Structure : Entity{
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	protected override void Start () {
-		
+		base.Start ();
 	}
 	//================================================================================================
 
@@ -36,7 +36,7 @@ public class Structure : Entity{
 	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
 	protected override void Update () {
-
+		base.Update ();
 	}
 	//================================================================================================
 
