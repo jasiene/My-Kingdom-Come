@@ -17,6 +17,8 @@ namespace GameHelper{
 		public static float CAMERA_MIN_HEIGHT = 10f;
 
 		public static Vector3 UNREACHABLE_VECTOR = new Vector3(-99999, -99999, -99999);
+
+		public static int MAX_ENTITY_SELECTION = 20;
 		//================================================================================================
 
 	}

@@ -7,7 +7,14 @@ public class Entity : MonoBehaviour {
 	//[Entity Variables]//
 	//================================================================================================
 	public string entName;
+	public string displayName;
+
+	public float baseHealth;
+	public float curHealth;
+
 	public bool isSelected;
+
+	public Texture2D image;
 
 	private Projector projector;
 	//================================================================================================

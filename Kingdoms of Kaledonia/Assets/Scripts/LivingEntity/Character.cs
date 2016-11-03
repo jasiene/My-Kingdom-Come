@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Character : LivingEntity {
+public class Character : Entity {
 
 	//================================================================================================
 	//[Character Variables]//

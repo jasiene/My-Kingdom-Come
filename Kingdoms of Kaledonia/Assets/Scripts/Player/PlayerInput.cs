@@ -165,7 +165,9 @@ public class PlayerInput : MonoBehaviour {
 								if (player.CheckIfStructureIsSelected()) {
 									player.DeselectAllEntities ();
 								}
-								ent.ChangeSelection (player, true);
+								if (player.selectedEntities.Count < GlobalVariables.MAX_ENTITY_SELECTION) {
+									ent.ChangeSelection (player, true);
+								}
 							}
 
 						} else {
