@@ -1,22 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 
-public class Entity : MonoBehaviour {
+public class Player : Entity {
 
 	//================================================================================================
-	//[Entity Variables]//
+	//[Player Variables]//
 	//================================================================================================
-	public string entName;
-	public string displayName;
+	public string plyName;
 
-	public float baseHealth;
-	public float curHealth;
+	public PlayersManager plyManager;
 
-	public bool isSelected;
+	public HUD hud;
+	public Color color;
+	[HideInInspector] public Material materialCircle;
+	[HideInInspector] public Material materialSquare;
+	public Texture circleTexture;
+	public Texture squareTexture;
 
-	public Texture2D image;
+	public bool isHuman;
+	public bool isInDirectMode; //check to see if player is directly controlling a character or not
+	public bool isPlacingStructure; //check if player is currently in structure placement mode
 
-	private Projector projector;
+	public OrderedDictionary selectedEntities = new OrderedDictionary();
 	//================================================================================================
 
 
@@ -24,8 +31,18 @@ public class Entity : MonoBehaviour {
 	//================================================================================================
 	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
-	protected virtual void Awake () {
+	protected override void Awake () {
+		plyManager = transform.GetComponentInParent<PlayersManager> ();
 
+		hud = transform.GetComponent<HUD> ();
+
+		materialCircle = new Material (Shader.Find ("Unlit/ProjectorShader"));
+		materialCircle.CopyPropertiesFromMaterial (plyManager.projectorCircle);
+		materialCircle.color = color;
+
+		materialSquare = new Material (Shader.Find ("Unlit/ProjectorShader"));
+		materialSquare.CopyPropertiesFromMaterial (plyManager.projectorSquare);
+		materialSquare.color = color;
 	}
 	//================================================================================================
 
@@ -34,15 +51,8 @@ public class Entity : MonoBehaviour {
 	//================================================================================================
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
-	protected virtual void Start () {
-		projector = transform.FindChild ("Projection").GetComponentInChildren<Projector> ();
-		if (transform.GetComponentInParent<UnitsManager> () != null) {
-			Player ply = transform.GetComponentInParent<UnitsManager> ().GetComponentInParent<Player> ();
-			projector.material.color = ply.color;
-		} else if (transform.GetComponentInParent<StructuresManager> () != null) {
-			Player ply = transform.GetComponentInParent<StructuresManager> ().GetComponentInParent<Player> ();
-			projector.material.color = ply.color;
-		}
+	protected override void Start () {
+		
 	}
 	//================================================================================================
 
@@ -51,42 +61,39 @@ public class Entity : MonoBehaviour {
 	//================================================================================================
 	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
-	protected virtual void Update () {
-
+	protected override void Update () {
+		
 	}
 	//================================================================================================
 
 
 	//================================================================================================
-	//[ChangeSelection]//
+	//[DeselectAllEntities]// --- Called every frame to implement game behaviour
 	//================================================================================================
-	public void ChangeSelection (Player plyWhoPressed, bool alterPlayerSelectedEntities) {
-		projector.enabled = !projector.enabled;
-		isSelected = !isSelected;
-		if (alterPlayerSelectedEntities) {
-			if (isSelected) {
-				plyWhoPressed.selectedEntities.Add (this.GetInstanceID (), this);
-			} else {
-				plyWhoPressed.selectedEntities.Remove (this.GetInstanceID ());
+	public void DeselectAllEntities () {
+		foreach(DictionaryEntry pair in selectedEntities){
+			Entity ent = (Entity)pair.Value;
+			if (ent) {
+				ent.ChangeSelection (this, false, false);
 			}
 		}
+		selectedEntities.Clear ();
 	}
 	//================================================================================================
 
 
+
 	//================================================================================================
-	//[ChangeSelection]//
+	//[DeselectAllEntities]// --- Called every frame to implement game behaviour
 	//================================================================================================
-	public void ChangeSelection (Player plyWhoPressed, bool alterPlayerSelectedEntities, bool setBool) {
-		projector.enabled = setBool;
-		isSelected = setBool;
-		if (alterPlayerSelectedEntities) {
-			if (isSelected) {
-				plyWhoPressed.selectedEntities.Add (this.GetInstanceID (), this);
-			} else {
-				plyWhoPressed.selectedEntities.Remove (this.GetInstanceID ());
+	public bool CheckIfStructureIsSelected () {
+		foreach(DictionaryEntry pair in selectedEntities){
+			Entity ent = (Entity)pair.Value;
+			if (ent.GetComponentInChildren<Structure>()) {
+				return true;
 			}
 		}
+		return false;
 	}
 	//================================================================================================
 

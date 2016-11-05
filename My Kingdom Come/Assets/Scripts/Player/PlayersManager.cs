@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LivingEntity : Entity, IKillable, IDamageable<float> {
+public class PlayersManager : MonoBehaviour{
 
 	//================================================================================================
-	//[Living Entity Variables]//
+	//[Units Manager Variables]//
 	//================================================================================================
-	public float baseHealth;
-	public float curHealth;
+	private Hashtable players;
+
+	public Material projectorCircle;
+	public Material projectorSquare;
 	//================================================================================================
 
 
@@ -15,8 +17,8 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 	//================================================================================================
 	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
-	protected override void Awake () {
-		base.Awake ();
+	protected virtual void Awake () {
+
 	}
 	//================================================================================================
 
@@ -25,8 +27,8 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 	//================================================================================================
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
-	protected override void Start () {
-		base.Start ();
+	protected virtual void Start () {
+		
 	}
 	//================================================================================================
 
@@ -35,18 +37,9 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 	//================================================================================================
 	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
-	protected override void Update () {
-		base.Update ();
+	protected virtual void Update () {
+
 	}
 	//================================================================================================
-
-
-	public void Kill(){
-
-	}
-
-	public void TakeDamage(float damage){
-
-	}
 
 }

@@ -1,23 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 
-public class Player : Entity {
+public class Entity : MonoBehaviour {
 
 	//================================================================================================
-	//[Player Variables]//
+	//[Entity Variables]//
 	//================================================================================================
-	public string plyName;
+	public string entName;
+	public string displayName;
 
-	public HUD hud;
-	public Color color;
+	public float baseHealth;
+	public float curHealth;
 
-	public bool isHuman;
-	public bool isInDirectMode; //check to see if player is directly controlling a character or not
-	public bool isPlacingStructure; //check if player is currently in structure placement mode
+	public bool isSelected;
 
-	public OrderedDictionary selectedEntities = new OrderedDictionary();
+	public Texture2D image;
+
+	private Projector projector;
 	//================================================================================================
 
 
@@ -25,7 +24,7 @@ public class Player : Entity {
 	//================================================================================================
 	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
-	protected override void Awake () {
+	protected virtual void Awake () {
 
 	}
 	//================================================================================================
@@ -35,8 +34,15 @@ public class Player : Entity {
 	//================================================================================================
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
-	protected override void Start () {
-		hud = transform.GetComponent<HUD> ();
+	protected virtual void Start () {
+		projector = transform.FindChild ("Projection").GetComponentInChildren<Projector> ();
+		if (transform.GetComponentInParent<UnitsManager> () != null) {
+			Player ply = transform.GetComponentInParent<UnitsManager> ().GetComponentInParent<Player> ();
+			projector.material = ply.materialCircle;
+		} else if (transform.GetComponentInParent<StructuresManager> () != null) {
+			Player ply = transform.GetComponentInParent<StructuresManager> ().GetComponentInParent<Player> ();
+			projector.material = ply.materialSquare;
+		}
 	}
 	//================================================================================================
 
@@ -45,39 +51,42 @@ public class Player : Entity {
 	//================================================================================================
 	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
-	protected override void Update () {
-		
+	protected virtual void Update () {
+
 	}
 	//================================================================================================
 
 
 	//================================================================================================
-	//[DeselectAllEntities]// --- Called every frame to implement game behaviour
+	//[ChangeSelection]//
 	//================================================================================================
-	public void DeselectAllEntities () {
-		foreach(DictionaryEntry pair in selectedEntities){
-			Entity ent = (Entity)pair.Value;
-			if (ent) {
-				ent.ChangeSelection (this, false, false);
+	public void ChangeSelection (Player plyWhoPressed, bool alterPlayerSelectedEntities) {
+		projector.enabled = !projector.enabled;
+		isSelected = !isSelected;
+		if (alterPlayerSelectedEntities) {
+			if (isSelected) {
+				plyWhoPressed.selectedEntities.Add (this.GetInstanceID (), this);
+			} else {
+				plyWhoPressed.selectedEntities.Remove (this.GetInstanceID ());
 			}
 		}
-		selectedEntities.Clear ();
 	}
 	//================================================================================================
 
 
-
 	//================================================================================================
-	//[DeselectAllEntities]// --- Called every frame to implement game behaviour
+	//[ChangeSelection]//
 	//================================================================================================
-	public bool CheckIfStructureIsSelected () {
-		foreach(DictionaryEntry pair in selectedEntities){
-			Entity ent = (Entity)pair.Value;
-			if (ent.GetComponentInChildren<Structure>()) {
-				return true;
+	public void ChangeSelection (Player plyWhoPressed, bool alterPlayerSelectedEntities, bool setBool) {
+		projector.enabled = setBool;
+		isSelected = setBool;
+		if (alterPlayerSelectedEntities) {
+			if (isSelected) {
+				plyWhoPressed.selectedEntities.Add (this.GetInstanceID (), this);
+			} else {
+				plyWhoPressed.selectedEntities.Remove (this.GetInstanceID ());
 			}
 		}
-		return false;
 	}
 	//================================================================================================
 
