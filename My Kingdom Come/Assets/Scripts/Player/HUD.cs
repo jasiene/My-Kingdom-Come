@@ -127,7 +127,13 @@ public class HUD : MonoBehaviour {
 	//[MouseOutsideHUD]// --- Camera movement controls when in direct mode
 	//================================================================================================
 	public bool IsMouseOutsideHUD () {
-		return (Input.mousePosition.y >= BOTTOM_BAR_HEIGHT && Input.mousePosition.y <= Screen.height - TOP_BAR_HEIGHT);
+		return (
+			(Input.mousePosition.y >= ENTITY_INFO_SIZE && Input.mousePosition.y <= Screen.height - TOP_BAR_HEIGHT) ||
+			(
+				(Input.mousePosition.y >= BOTTOM_BAR_HEIGHT && Input.mousePosition.y <= Screen.height - ENTITY_INFO_SIZE) &&
+				(Input.mousePosition.x >= ENTITY_INFO_SIZE && Input.mousePosition.x <= Screen.width - ENTITY_INFO_SIZE)
+			)
+		);
 	}
 	//================================================================================================
 

@@ -10,7 +10,7 @@ public class Player : Entity {
 	//================================================================================================
 	public string plyName;
 
-	public PlayersManager plyManager;
+	public SingletonRepository singletonRepo;
 
 	public HUD hud;
 	public Color color;
@@ -32,16 +32,16 @@ public class Player : Entity {
 	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
 	protected override void Awake () {
-		plyManager = transform.GetComponentInParent<PlayersManager> ();
+		singletonRepo = GameObject.Find ("SingletonRepository").GetComponent<SingletonRepository> ();
 
 		hud = transform.GetComponent<HUD> ();
 
 		materialCircle = new Material (Shader.Find ("Unlit/ProjectorShader"));
-		materialCircle.CopyPropertiesFromMaterial (plyManager.projectorCircle);
+		materialCircle.CopyPropertiesFromMaterial (singletonRepo.projectorCircle);
 		materialCircle.color = color;
 
 		materialSquare = new Material (Shader.Find ("Unlit/ProjectorShader"));
-		materialSquare.CopyPropertiesFromMaterial (plyManager.projectorSquare);
+		materialSquare.CopyPropertiesFromMaterial (singletonRepo.projectorSquare);
 		materialSquare.color = color;
 	}
 	//================================================================================================
@@ -67,8 +67,9 @@ public class Player : Entity {
 	//================================================================================================
 
 
+
 	//================================================================================================
-	//[DeselectAllEntities]// --- Called every frame to implement game behaviour
+	//[DeselectAllEntities]// --- 
 	//================================================================================================
 	public void DeselectAllEntities () {
 		foreach(DictionaryEntry pair in selectedEntities){
@@ -84,12 +85,28 @@ public class Player : Entity {
 
 
 	//================================================================================================
-	//[DeselectAllEntities]// --- Called every frame to implement game behaviour
+	//[DeselectAllEntities]// --- 
 	//================================================================================================
 	public bool CheckIfStructureIsSelected () {
 		foreach(DictionaryEntry pair in selectedEntities){
 			Entity ent = (Entity)pair.Value;
 			if (ent.GetComponentInChildren<Structure>()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	//================================================================================================
+
+
+
+	//================================================================================================
+	//[DeselectAllEntities]// --- 
+	//================================================================================================
+	public bool CheckIfAnotherPlayersEntityIsSelected () {
+		foreach(DictionaryEntry pair in selectedEntities){
+			Entity ent = (Entity)pair.Value;
+			if (!ent.IsOwnedBy(this)) {
 				return true;
 			}
 		}

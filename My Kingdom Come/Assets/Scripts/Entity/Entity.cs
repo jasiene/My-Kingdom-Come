@@ -17,6 +17,8 @@ public class Entity : MonoBehaviour {
 	public Texture2D image;
 
 	private Projector projector;
+
+	protected Player player;
 	//================================================================================================
 
 
@@ -35,6 +37,7 @@ public class Entity : MonoBehaviour {
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	protected virtual void Start () {
+		player = transform.root.GetComponent<Player> ();
 		projector = transform.FindChild ("Projection").GetComponentInChildren<Projector> ();
 		if (transform.GetComponentInParent<UnitsManager> () != null) {
 			Player ply = transform.GetComponentInParent<UnitsManager> ().GetComponentInParent<Player> ();
@@ -58,7 +61,7 @@ public class Entity : MonoBehaviour {
 
 
 	//================================================================================================
-	//[ChangeSelection]//
+	//[ChangeSelection]// --- Select or deselect an entity based upon whether it already is selected
 	//================================================================================================
 	public void ChangeSelection (Player plyWhoPressed, bool alterPlayerSelectedEntities) {
 		projector.enabled = !projector.enabled;
@@ -75,7 +78,7 @@ public class Entity : MonoBehaviour {
 
 
 	//================================================================================================
-	//[ChangeSelection]//
+	//[ChangeSelection]// --- Specify selection state of entity
 	//================================================================================================
 	public void ChangeSelection (Player plyWhoPressed, bool alterPlayerSelectedEntities, bool setBool) {
 		projector.enabled = setBool;
@@ -86,6 +89,19 @@ public class Entity : MonoBehaviour {
 			} else {
 				plyWhoPressed.selectedEntities.Remove (this.GetInstanceID ());
 			}
+		}
+	}
+	//================================================================================================
+
+
+	//================================================================================================
+	//[IsOwnedBy]// --- Check who the entity is owned by
+	//================================================================================================
+	public bool IsOwnedBy (Player ply) {
+		if (player && player.Equals (ply)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 	//================================================================================================

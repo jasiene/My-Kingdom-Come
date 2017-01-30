@@ -2,7 +2,8 @@
 using System.Collections;
 using GameHelper;
 
-[RequireComponent(typeof (Player))] //Unity specific, forces the object that uses PlayerInput to also attach a Player component (because we need one to have player input)
+[RequireComponent(typeof (Player))] //Unity specific, forces the object that uses PlayerInput to also 
+//attach a Player component (because we need one to have player input)
 public class PlayerInput : MonoBehaviour {
 
 	//================================================================================================
@@ -155,23 +156,32 @@ public class PlayerInput : MonoBehaviour {
 					Entity ent = objectClicked.GetComponentInParent<Entity> ();
 
 					if (ent) {
+
+						if (ent.IsOwnedBy (player)) {
 						
-						if (Input.GetKey (KeyCode.LeftControl)) {
-							
-							if (ent.GetComponentInChildren<Structure> ()) {
+							if (Input.GetKey (KeyCode.LeftControl)) {
+								
+								if (ent.GetComponentInChildren<Structure> () || player.CheckIfAnotherPlayersEntityIsSelected()) {
+									player.DeselectAllEntities ();
+									ent.ChangeSelection (player, true);
+								} else {
+									if (player.CheckIfStructureIsSelected ()) {
+										player.DeselectAllEntities ();
+									}
+									if (player.selectedEntities.Count < GlobalVariables.MAX_ENTITY_SELECTION) {
+										ent.ChangeSelection (player, true);
+									}
+								}
+
+							} else {
+								
 								player.DeselectAllEntities ();
 								ent.ChangeSelection (player, true);
-							} else {
-								if (player.CheckIfStructureIsSelected()) {
-									player.DeselectAllEntities ();
-								}
-								if (player.selectedEntities.Count < GlobalVariables.MAX_ENTITY_SELECTION) {
-									ent.ChangeSelection (player, true);
-								}
+
 							}
 
 						} else {
-							
+
 							player.DeselectAllEntities ();
 							ent.ChangeSelection (player, true);
 

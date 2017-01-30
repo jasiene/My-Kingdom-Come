@@ -1,4 +1,7 @@
-﻿//CREDIT TO http://hyunkell.com/blog/rts-style-unit-selection-in-unity-5/
+﻿// Upgrade NOTE: replaced '_Projector' with 'unity_Projector'
+// Upgrade NOTE: replaced '_ProjectorClip' with 'unity_ProjectorClip'
+
+//CREDIT TO http://hyunkell.com/blog/rts-style-unit-selection-in-unity-5/
 
 Shader "Unlit/ProjectorShader"
 {
@@ -25,14 +28,14 @@ Shader "Unlit/ProjectorShader"
 				float4 pos : SV_POSITION;
 			};
 			
-			float4x4 _Projector;
-			float4x4 _ProjectorClip;
+			float4x4 unity_Projector;
+			float4x4 unity_ProjectorClip;
 			
 			v2f vert (float4 vertex : POSITION)
 			{
 				v2f o;
 				o.pos = mul (UNITY_MATRIX_MVP, vertex);
-				o.uvShadow = mul (_Projector, vertex);
+				o.uvShadow = mul (unity_Projector, vertex);
 				return o;
 			}
 			
