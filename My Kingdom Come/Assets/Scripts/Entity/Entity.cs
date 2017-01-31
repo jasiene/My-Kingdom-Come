@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Entity : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class Entity : MonoBehaviour {
 	//================================================================================================
 	public string entName;
 	public string displayName;
+	public string description;
 
 	public float baseHealth;
 	public float curHealth;
@@ -18,7 +20,9 @@ public class Entity : MonoBehaviour {
 
 	private Projector projector;
 
-	protected Player player;
+	public Player player;
+
+	public List<Action> performableActions;
 	//================================================================================================
 
 
@@ -37,8 +41,13 @@ public class Entity : MonoBehaviour {
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	protected virtual void Start () {
+		
 		player = transform.root.GetComponent<Player> ();
+
 		projector = transform.FindChild ("Projection").GetComponentInChildren<Projector> ();
+
+		performableActions = new List<Action> ();
+
 		if (transform.GetComponentInParent<UnitsManager> () != null) {
 			Player ply = transform.GetComponentInParent<UnitsManager> ().GetComponentInParent<Player> ();
 			projector.material = ply.materialCircle;
@@ -46,6 +55,7 @@ public class Entity : MonoBehaviour {
 			Player ply = transform.GetComponentInParent<StructuresManager> ().GetComponentInParent<Player> ();
 			projector.material = ply.materialSquare;
 		}
+
 	}
 	//================================================================================================
 

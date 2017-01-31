@@ -15,6 +15,11 @@ public class HUD : MonoBehaviour {
 	[HideInInspector] private static float ENTITY_INFO_SIZE = 192f;
 	[HideInInspector] private static int MAX_ROWS_FOR_MULTIPLE_SELECTION = 5;
 	[HideInInspector] private static int MAX_COLUMNS_FOR_MULTIPLE_SELECTION = 4;
+
+	[HideInInspector] private static int MAINMENU_WIDTH = 256;
+	[HideInInspector] private static int MAINMENU_HEIGHT = 384;
+
+	[HideInInspector] private bool showMainMenu = false;
 	//================================================================================================
 
 
@@ -69,27 +74,42 @@ public class HUD : MonoBehaviour {
 	//================================================================================================
 	private void DrawRTSModeHUD () {
 
+
+
 		GUI.BeginGroup (new Rect(0, 0, Screen.width, Screen.height));
 		//================================================================================================
 		//================================================================================================
 		//=================================[TOP BAR]======================================================
 		GUI.Box (new Rect (0, 0, Screen.width, TOP_BAR_HEIGHT), "");
+
+		if (GUI.Button (new Rect (Screen.width - 144, 0, 128, TOP_BAR_HEIGHT), "Main Menu")) {
+			showMainMenu = true;
+			GameHelper.GameState.PauseGame ();
+		}
+		if (showMainMenu) {
+			DrawMainMenuPopup ();
+		}
 		//================================================================================================
-		//================================================================================================
+
+
 		//================================[BOTTOM BAR]====================================================
-		GUI.Box (new Rect (0, Screen.height - ENTITY_INFO_SIZE, ENTITY_INFO_SIZE, ENTITY_INFO_SIZE), "Entity Info");
+		GUI.Box (new Rect (0, Screen.height - ENTITY_INFO_SIZE, ENTITY_INFO_SIZE, ENTITY_INFO_SIZE), "");
 		if (player.selectedEntities.Count == 1) {
 			foreach(DictionaryEntry pair in player.selectedEntities){
 				Entity ent = (Entity)pair.Value;
 				if (ent) {
-					GUI.Label (new Rect (88, Screen.height - ENTITY_INFO_SIZE + 32, 112, 24), (ent.curHealth+ "/" + ent.baseHealth));
+					GUI.Label (new Rect (16, Screen.height - ENTITY_INFO_SIZE + 8, 112, 24), ent.player.plyName);
+
+					GUI.DrawTexture (new Rect (16, Screen.height - ENTITY_INFO_SIZE + 32, 64, 64), ent.image);
+
+					GUI.Label (new Rect (88, Screen.height - ENTITY_INFO_SIZE + 48, 112, 24), (ent.curHealth+ "/" + ent.baseHealth));
+
 					if (ent.GetComponentInChildren<Character> ()) {
 						temp = ent.GetComponentInChildren<Character> ().characterName;
 					} else {
 						temp = "";
 					}
-					GUI.DrawTexture (new Rect (16, Screen.height - ENTITY_INFO_SIZE + 32, 64, 64), ent.image);
-					GUI.Label (new Rect (16, Screen.height - ENTITY_INFO_SIZE + 96, 112, 48), ent.displayName + "\n" + temp);
+					GUI.Label (new Rect (16, Screen.height - ENTITY_INFO_SIZE + 96, 112, 112), ent.displayName + "\n" + temp);
 				}
 			}
 		} else if (player.selectedEntities.Count > 1) {
@@ -107,17 +127,53 @@ public class HUD : MonoBehaviour {
 				}
 			}
 		}
-		//================================[BOTTOM BAR]====================================================
-		GUI.Box (new Rect (ENTITY_INFO_SIZE, Screen.height - BOTTOM_BAR_HEIGHT, (Screen.width - ENTITY_INFO_SIZE*2)/5*2, BOTTOM_BAR_HEIGHT), "Entity Commands/Player Actions");
-		//================================[BOTTOM BAR]====================================================
-		GUI.Box (new Rect (ENTITY_INFO_SIZE + (Screen.width - ENTITY_INFO_SIZE*2)/5*2, Screen.height - BOTTOM_BAR_HEIGHT, (Screen.width - ENTITY_INFO_SIZE*2)/5*3, BOTTOM_BAR_HEIGHT), "World Stats/Politics (unsure as of yet)");
-		//================================[BOTTOM BAR]====================================================
-		GUI.Box (new Rect (Screen.width - ENTITY_INFO_SIZE, Screen.height - ENTITY_INFO_SIZE, ENTITY_INFO_SIZE, ENTITY_INFO_SIZE), "Mini Map");
 		//================================================================================================
+
+
+		//================================[BOTTOM BAR]====================================================
+		GUI.Box (new Rect (ENTITY_INFO_SIZE, Screen.height - BOTTOM_BAR_HEIGHT, (Screen.width - ENTITY_INFO_SIZE*2)/5*2, BOTTOM_BAR_HEIGHT), "");
+		//================================================================================================
+		if (player.selectedEntities.Count == 1) {
+			foreach (DictionaryEntry pair in player.selectedEntities) {
+				Entity ent = (Entity)pair.Value;
+				if (ent && ent.IsOwnedBy(player)) {
+					int i = 0;
+					foreach (Action action in ent.performableActions) {
+						if (GUI.Button (new Rect (ENTITY_INFO_SIZE + 8 + i*64, Screen.height - BOTTOM_BAR_HEIGHT + 8, 56, 56), action.GetActionName ())) {
+							action.PerformAction ();
+						}
+						i++;
+					}
+				}
+			}
+		}
+		//================================[BOTTOM BAR]====================================================
+		GUI.Box (new Rect (ENTITY_INFO_SIZE + (Screen.width - ENTITY_INFO_SIZE*2)/5*2, Screen.height - BOTTOM_BAR_HEIGHT, (Screen.width - ENTITY_INFO_SIZE*2)/5*3, BOTTOM_BAR_HEIGHT), "");
+		//================================================================================================
+
+
+		//================================[BOTTOM BAR]====================================================
+		GUI.Box (new Rect (Screen.width - ENTITY_INFO_SIZE, Screen.height - ENTITY_INFO_SIZE, ENTITY_INFO_SIZE, ENTITY_INFO_SIZE), "");
 		//================================================================================================
 		//================================================================================================
 		GUI.EndGroup();
 
+	}
+	//================================================================================================
+
+
+
+	//================================================================================================
+	//[DrawMainMenuPopup]// --- 
+	//================================================================================================
+	public void DrawMainMenuPopup () {
+		GUI.Box (new Rect (Screen.width/2 - MAINMENU_WIDTH/2, Screen.height/2 - MAINMENU_HEIGHT/2, MAINMENU_WIDTH, MAINMENU_HEIGHT), "");
+
+		// CLOSE BUTTON
+		if (GUI.Button (new Rect (Screen.width / 2 - MAINMENU_WIDTH / 2 + 16, Screen.height / 2 + MAINMENU_HEIGHT / 2 - MAINMENU_HEIGHT / 8 - 16, MAINMENU_WIDTH - 32, MAINMENU_HEIGHT / 8), "Resume Game")) {
+			showMainMenu = false;
+			GameHelper.GameState.ResumeGame ();
+		}
 	}
 	//================================================================================================
 

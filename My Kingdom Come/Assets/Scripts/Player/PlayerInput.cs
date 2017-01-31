@@ -40,18 +40,20 @@ public class PlayerInput : MonoBehaviour {
 	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
 	void Update () {
-		if (player.isHuman) {
-			if (player.isInDirectMode) {
-				//DIRECT CONTROL
-				DirectModeMouseActivity();
-				DirectModeKeysActivity ();
-			} else {
-				//RTS CONTROL
-				RTSModeCameraMovement();
-				RTSModeCameraRotation ();
-				RTSModeCameraZoom ();
-				RTSModeMouseActivity ();
-				RTSModeKeysActivity ();
+		if (!GameHelper.GlobalVariables.GAME_PAUSED) {
+			if (player.isHuman) {
+				if (player.isInDirectMode) {
+					//DIRECT CONTROL
+					DirectModeMouseActivity ();
+					DirectModeKeysActivity ();
+				} else {
+					//RTS CONTROL
+					RTSModeCameraMovement ();
+					RTSModeCameraRotation ();
+					RTSModeCameraZoom ();
+					RTSModeMouseActivity ();
+					RTSModeKeysActivity ();
+				}
 			}
 		}
 	}

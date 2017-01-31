@@ -8,6 +8,8 @@ public class SingletonRepository : MonoBehaviour{
 	//================================================================================================
 	public Material projectorCircle;
 	public Material projectorSquare;
+
+	public GameObject[] entities;
 	//================================================================================================
 
 
@@ -37,6 +39,22 @@ public class SingletonRepository : MonoBehaviour{
 	//================================================================================================
 	protected void Update () {
 		
+	}
+	//================================================================================================
+
+
+
+	//================================================================================================
+	//[GetEntity]// --- 
+	//================================================================================================
+	public GameObject GetEntity(string name){
+		foreach (GameObject entity in entities) {
+			Entity ent = entity.GetComponent<Entity> ();
+			if (ent && ent.entName.Equals (name)) {
+				return entity;
+			}
+		}
+		return null;
 	}
 	//================================================================================================
 

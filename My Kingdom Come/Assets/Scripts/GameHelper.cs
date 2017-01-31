@@ -19,6 +19,10 @@ namespace GameHelper{
 		public static Vector3 UNREACHABLE_VECTOR = new Vector3(-99999, -99999, -99999);
 
 		public static int MAX_ENTITY_SELECTION = 20;
+
+		public static bool GAME_PAUSED = false;
+
+		public static float DEFAULT_TIMESCALE = Time.timeScale;
 		//================================================================================================
 
 	}
@@ -53,6 +57,30 @@ namespace GameHelper{
 		}
 		//================================================================================================
 
+
+	}
+
+	public static class GameState{
+
+		//================================================================================================
+		//[PauseGame]//
+		//================================================================================================
+		public static void PauseGame(){
+			GlobalVariables.GAME_PAUSED = true;
+			Time.timeScale = 0;
+		}
+		//================================================================================================
+
+
+
+		//================================================================================================
+		//[ResumeGame]//
+		//================================================================================================
+		public static void ResumeGame(){
+			GlobalVariables.GAME_PAUSED = false;
+			Time.timeScale = GlobalVariables.DEFAULT_TIMESCALE;
+		}
+		//================================================================================================
 
 	}
 
