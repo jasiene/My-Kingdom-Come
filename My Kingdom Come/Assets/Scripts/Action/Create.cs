@@ -1,43 +1,32 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class Structure : Entity{
-
-	//================================================================================================
-	//[Structure Variables]//
-	//================================================================================================
-	public Queue<Action> actionQueue;
-	//================================================================================================
-
-
+public class Create : Action {
 
 	//================================================================================================
-	//[Awake]// --- Called before Start, used to initialise variables before game
+	//[Create Variables]//
 	//================================================================================================
-	protected override void Awake () {
-		base.Awake ();
+	string entityToCreate;
+	//================================================================================================
+
+
+
+	//================================================================================================
+	//[Constructor]// ---
+	//================================================================================================
+	public Create(string actionName, float actionLength, Texture2D actionImage, bool isQueueable, string entityToCreate) : base(actionName, actionLength, actionImage, isQueueable){
+		this.entityToCreate = entityToCreate;
 	}
 	//================================================================================================
 
 
 
 	//================================================================================================
-	//[Start]// --- Called before Update, used to pass any information after all initialisation
+	//[PerformAction]// ---
 	//================================================================================================
-	protected override void Start () {
-		base.Start ();
-		actionQueue = new Queue<Action> ();
-	}
-	//================================================================================================
-
-
-
-	//================================================================================================
-	//[Update]// --- Called every frame to implement game behaviour
-	//================================================================================================
-	protected override void Update () {
-		base.Update ();
+	public override void PerformAction(){
+		Debug.Log ("Created " + entityToCreate);
 	}
 	//================================================================================================
 

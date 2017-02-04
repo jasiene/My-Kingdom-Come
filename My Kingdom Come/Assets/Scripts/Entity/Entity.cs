@@ -20,7 +20,7 @@ public class Entity : MonoBehaviour {
 
 	private Projector projector;
 
-	public Player player;
+	[HideInInspector] public Player player;
 
 	public List<Action> performableActions;
 	//================================================================================================
@@ -41,8 +41,10 @@ public class Entity : MonoBehaviour {
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
 	protected virtual void Start () {
-		
-		player = transform.root.GetComponent<Player> ();
+
+		if(transform.root.GetComponent<Player> ()){
+			player = transform.root.GetComponent<Player> ();
+		}
 
 		projector = transform.FindChild ("Projection").GetComponentInChildren<Projector> ();
 

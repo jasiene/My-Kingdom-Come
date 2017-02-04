@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LivingEntity : Entity, IKillable, IDamageable<float> {
+public class Hovel : Structure{
 
 	//================================================================================================
-	//[Living Entity Variables]//
+	//[Hovel Variables]//
 	//================================================================================================
 
 	//================================================================================================
@@ -26,6 +26,10 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 	//================================================================================================
 	protected override void Start () {
 		base.Start ();
+
+		performableActions.Add (new Place ("Place Hovel", 0, GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntityImage("hovel"), false, "hovel"));
+		performableActions.Add (new Place ("Place Keep", 0, GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntityImage("keep"), false, "keep"));
+		performableActions.Add (new Create ("Create Yeoman", 5, GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntityImage("yeoman"), true, "yeoman"));
 	}
 	//================================================================================================
 
@@ -38,14 +42,5 @@ public class LivingEntity : Entity, IKillable, IDamageable<float> {
 		base.Update ();
 	}
 	//================================================================================================
-
-
-	public void Kill(){
-
-	}
-
-	public void TakeDamage(float damage){
-
-	}
 
 }

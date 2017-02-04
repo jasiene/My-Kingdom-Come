@@ -3,14 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-public class Player : Entity {
+public class Player : MonoBehaviour {
 
 	//================================================================================================
 	//[Player Variables]//
 	//================================================================================================
 	public string plyName;
-
-	public SingletonRepository singletonRepo;
+	public House plyHouse;
 
 	public HUD hud;
 	public Color color;
@@ -31,18 +30,20 @@ public class Player : Entity {
 	//================================================================================================
 	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
-	protected override void Awake () {
-		singletonRepo = GameObject.Find ("SingletonRepository").GetComponent<SingletonRepository> ();
-
+	protected void Awake () {
+		
 		hud = transform.GetComponent<HUD> ();
 
+		plyHouse = new House ("House " + plyName, this);
+
 		materialCircle = new Material (Shader.Find ("Unlit/ProjectorShader"));
-		materialCircle.CopyPropertiesFromMaterial (singletonRepo.projectorCircle);
+		materialCircle.CopyPropertiesFromMaterial (GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.PROJECTOR_CIRCLE);
 		materialCircle.color = color;
 
 		materialSquare = new Material (Shader.Find ("Unlit/ProjectorShader"));
-		materialSquare.CopyPropertiesFromMaterial (singletonRepo.projectorSquare);
+		materialSquare.CopyPropertiesFromMaterial (GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.PROJECTOR_SQUARE);
 		materialSquare.color = color;
+
 	}
 	//================================================================================================
 
@@ -51,7 +52,7 @@ public class Player : Entity {
 	//================================================================================================
 	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
-	protected override void Start () {
+	protected void Start () {
 		
 	}
 	//================================================================================================
@@ -61,7 +62,7 @@ public class Player : Entity {
 	//================================================================================================
 	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
-	protected override void Update () {
+	protected void Update () {
 		
 	}
 	//================================================================================================

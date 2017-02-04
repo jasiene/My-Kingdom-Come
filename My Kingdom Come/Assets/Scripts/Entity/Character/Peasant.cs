@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Character : Entity {
+public class Peasant : Character {
 
 	//================================================================================================
-	//[Character Variables]//
+	//[Peasant Variables]//
 	//================================================================================================
-	public string characterName;
+
 	//================================================================================================
 
 

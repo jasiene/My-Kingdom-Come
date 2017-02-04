@@ -13,8 +13,7 @@ public class HUD : MonoBehaviour {
 	[HideInInspector] private static float TOP_BAR_HEIGHT = 32f;
 	[HideInInspector] private static float BOTTOM_BAR_HEIGHT = 144f;
 	[HideInInspector] private static float ENTITY_INFO_SIZE = 192f;
-	[HideInInspector] private static int MAX_ROWS_FOR_MULTIPLE_SELECTION = 5;
-	[HideInInspector] private static int MAX_COLUMNS_FOR_MULTIPLE_SELECTION = 4;
+	[HideInInspector] private static int MAX_COLUMNS_FOR_MULTIPLE_SELECTION = 8;
 
 	[HideInInspector] private static int MAINMENU_WIDTH = 256;
 	[HideInInspector] private static int MAINMENU_HEIGHT = 384;
@@ -93,23 +92,40 @@ public class HUD : MonoBehaviour {
 
 
 		//================================[BOTTOM BAR]====================================================
-		GUI.Box (new Rect (0, Screen.height - ENTITY_INFO_SIZE, ENTITY_INFO_SIZE, ENTITY_INFO_SIZE), "");
+		float firstBottomBarStartX = 0;
+		GUI.Box (new Rect (firstBottomBarStartX, Screen.height - ENTITY_INFO_SIZE, ENTITY_INFO_SIZE, ENTITY_INFO_SIZE), "");
+		//================================================================================================
+
+
+
+		//================================[BOTTOM BAR]====================================================
+		float secondBottomBarStartX = ENTITY_INFO_SIZE;
+		GUI.Box (new Rect (secondBottomBarStartX, Screen.height - BOTTOM_BAR_HEIGHT, (Screen.width - ENTITY_INFO_SIZE*2)/5*2, BOTTOM_BAR_HEIGHT), "");
+		//================================================================================================
+
 		if (player.selectedEntities.Count == 1) {
 			foreach(DictionaryEntry pair in player.selectedEntities){
 				Entity ent = (Entity)pair.Value;
 				if (ent) {
-					GUI.Label (new Rect (16, Screen.height - ENTITY_INFO_SIZE + 8, 112, 24), ent.player.plyName);
 
-					GUI.DrawTexture (new Rect (16, Screen.height - ENTITY_INFO_SIZE + 32, 64, 64), ent.image);
+					GUI.DrawTexture (new Rect (secondBottomBarStartX + 16, Screen.height - BOTTOM_BAR_HEIGHT + 16, 64, 64), ent.image);
 
-					GUI.Label (new Rect (88, Screen.height - ENTITY_INFO_SIZE + 48, 112, 24), (ent.curHealth+ "/" + ent.baseHealth));
-
-					if (ent.GetComponentInChildren<Character> ()) {
-						temp = ent.GetComponentInChildren<Character> ().characterName;
-					} else {
-						temp = "";
+					if(ent.GetComponentInChildren<Character>()){
+						GUI.Label (new Rect (secondBottomBarStartX + 88, Screen.height - BOTTOM_BAR_HEIGHT + 16, 256, 256), 
+							ent.player.plyHouse.houseName + " (" + ent.player.plyName + ")\n\n" +
+							ent.GetComponentInChildren<Character>().characterName + "\n(" + ent.displayName + ")\n"
+						);
+						GUI.DrawTexture (new Rect (secondBottomBarStartX + 16, Screen.height - BOTTOM_BAR_HEIGHT + 16 + 64, 64, 4), GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.TEXTURE2D_BLACK);
+						GUI.DrawTexture (new Rect (secondBottomBarStartX + 16, Screen.height - BOTTOM_BAR_HEIGHT + 16 + 64, (ent.curHealth/ent.baseHealth)*64, 4), GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.TEXTURE2D_RED);
+					}else if(ent.GetComponentInChildren<Structure>()){
+						GUI.Label (new Rect (secondBottomBarStartX + 88, Screen.height - BOTTOM_BAR_HEIGHT + 16, 256, 256), 
+							ent.player.plyHouse.houseName + " (" + ent.player.plyName + ")\n\n" +
+							ent.displayName + "\n"
+						);
+						GUI.DrawTexture (new Rect (secondBottomBarStartX + 16, Screen.height - BOTTOM_BAR_HEIGHT + 16 + 64, 64, 4), GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.TEXTURE2D_BLACK);
+						GUI.DrawTexture (new Rect (secondBottomBarStartX + 16, Screen.height - BOTTOM_BAR_HEIGHT + 16 + 64, (ent.curHealth/ent.baseHealth)*64, 4), GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.TEXTURE2D_BLUE);
 					}
-					GUI.Label (new Rect (16, Screen.height - ENTITY_INFO_SIZE + 96, 112, 112), ent.displayName + "\n" + temp);
+
 				}
 			}
 		} else if (player.selectedEntities.Count > 1) {
@@ -118,7 +134,7 @@ public class HUD : MonoBehaviour {
 			foreach(DictionaryEntry pair in player.selectedEntities){
 				Entity ent = (Entity)pair.Value;
 				if (ent) {
-					GUI.DrawTexture (new Rect (16 + (32 * columns), Screen.height - ENTITY_INFO_SIZE + 16 + (32 * rows), 32, 32), ent.image);
+					GUI.DrawTexture (new Rect (secondBottomBarStartX + 16 + (32 * columns), Screen.height - BOTTOM_BAR_HEIGHT + 16 + (32 * rows), 32, 32), ent.image);
 					columns++;
 					if (columns == MAX_COLUMNS_FOR_MULTIPLE_SELECTION) {
 						columns = 0;
@@ -127,34 +143,71 @@ public class HUD : MonoBehaviour {
 				}
 			}
 		}
-		//================================================================================================
-
 
 		//================================[BOTTOM BAR]====================================================
-		GUI.Box (new Rect (ENTITY_INFO_SIZE, Screen.height - BOTTOM_BAR_HEIGHT, (Screen.width - ENTITY_INFO_SIZE*2)/5*2, BOTTOM_BAR_HEIGHT), "");
+		float thirdBottomBarStartX = ENTITY_INFO_SIZE + (Screen.width - ENTITY_INFO_SIZE*2)/5*2;
+		GUI.Box (new Rect (thirdBottomBarStartX, Screen.height - BOTTOM_BAR_HEIGHT, (Screen.width - ENTITY_INFO_SIZE*2)/5*3, BOTTOM_BAR_HEIGHT), "");
 		//================================================================================================
+
 		if (player.selectedEntities.Count == 1) {
+
 			foreach (DictionaryEntry pair in player.selectedEntities) {
 				Entity ent = (Entity)pair.Value;
 				if (ent && ent.IsOwnedBy(player)) {
+
+					Structure structure = ent.GetComponent<Structure>();
 					int i = 0;
+
 					foreach (Action action in ent.performableActions) {
-						if (GUI.Button (new Rect (ENTITY_INFO_SIZE + 8 + i*64, Screen.height - BOTTOM_BAR_HEIGHT + 8, 56, 56), action.GetActionName ())) {
-							action.PerformAction ();
+						if (GUI.Button (new Rect (thirdBottomBarStartX + 8 + i*64, Screen.height - BOTTOM_BAR_HEIGHT + 8, 56, 56), action.GetActionName())) {
+
+							if(structure){
+								
+								if (action.GetIsQueueable ()) {
+									
+									if(structure.actionQueue.Count < structure.maxActionsInQueue){
+										structure.AddActionToQueue (action);
+									}
+
+								} else {
+									
+									action.PerformAction ();
+
+								}
+
+							}
+
 						}
+
 						i++;
+
 					}
+						
+					if (structure) {
+						int noOfActions = 0;
+						foreach (Action action in structure.actionQueue) {
+							GUI.DrawTexture (new Rect(thirdBottomBarStartX + noOfActions * (ENTITY_INFO_SIZE - BOTTOM_BAR_HEIGHT - 8), Screen.height - ENTITY_INFO_SIZE, ENTITY_INFO_SIZE - BOTTOM_BAR_HEIGHT - 8, ENTITY_INFO_SIZE - BOTTOM_BAR_HEIGHT - 8), 
+								GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntityImage(ent.entName));
+							noOfActions++;
+						}
+						if (structure.actionQueue.Count > 0) {
+							GUI.DrawTexture (new Rect (thirdBottomBarStartX, Screen.height - BOTTOM_BAR_HEIGHT - 8, (Screen.width - ENTITY_INFO_SIZE * 2) / 5 * 3, 8), GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.TEXTURE2D_BLACK);
+							GUI.DrawTexture (new Rect (thirdBottomBarStartX, Screen.height - BOTTOM_BAR_HEIGHT - 8, ((structure.currentActionProgress/structure.currentActionLength)*((Screen.width - ENTITY_INFO_SIZE * 2) / 5 * 3)), 8), GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.TEXTURE2D_GREEN);
+						}
+					}
+
 				}
 			}
+
 		}
+
 		//================================[BOTTOM BAR]====================================================
-		GUI.Box (new Rect (ENTITY_INFO_SIZE + (Screen.width - ENTITY_INFO_SIZE*2)/5*2, Screen.height - BOTTOM_BAR_HEIGHT, (Screen.width - ENTITY_INFO_SIZE*2)/5*3, BOTTOM_BAR_HEIGHT), "");
+		float fourthBottomBarStartX = Screen.width - ENTITY_INFO_SIZE;
+		GUI.Box (new Rect (fourthBottomBarStartX, Screen.height - ENTITY_INFO_SIZE, ENTITY_INFO_SIZE, ENTITY_INFO_SIZE), "");
 		//================================================================================================
 
 
-		//================================[BOTTOM BAR]====================================================
-		GUI.Box (new Rect (Screen.width - ENTITY_INFO_SIZE, Screen.height - ENTITY_INFO_SIZE, ENTITY_INFO_SIZE, ENTITY_INFO_SIZE), "");
-		//================================================================================================
+
 		//================================================================================================
 		GUI.EndGroup();
 

@@ -2,7 +2,8 @@
 using System.Collections;
 
 namespace GameHelper{
-	public static class GlobalVariables {
+	//====================================================================================================
+	public class GlobalVariables {
 		
 		//================================================================================================
 		//[RTS Camera Variables]//
@@ -18,16 +19,34 @@ namespace GameHelper{
 
 		public static Vector3 UNREACHABLE_VECTOR = new Vector3(-99999, -99999, -99999);
 
-		public static int MAX_ENTITY_SELECTION = 20;
+		public static int MAX_ENTITY_SELECTION = 24;
 
 		public static bool GAME_PAUSED = false;
 
 		public static float DEFAULT_TIMESCALE = Time.timeScale;
+
+		public static string[] CHARACTER_FIRST_NAMES = {
+			"John", "Arthur", "William", "Robert", "Ricard", "Rauf",
+			"Walter", "Thomas", "Henry", "Adam", "Roger", "Stephen", "Gilbert", "Hugh", "Jeffrey",
+			"Simon", "Alan", "Peter", "Edmund", "Phelip", "Jake", "Laurence", "Paul", "Clement", "Arnaud",
+			"Elyas", "Lucas", "Martin", "Giles", "Lambert", "Marc", "Randulf", "Vincent"
+		};
+
+		public static string[] CHARACTER_LAST_NAMES = {
+			"Burrel", "Capron", "Challener", "Draper", "Dyer", "Fuller",
+			"Hatter", "Hood", "Napier", "Parmenter", "Quilter", "Webber", "Becker", "Alder", "Dean",
+			"Ford", "Forrest", "Garside", "Hawthorne", "Johnston", "Millerchip", "Ridge", "Underwood",
+			"West", "Woodrow", "Gregory", "Rolfe", "Ward", "Brickenden", "Browne", "Baker", "Adamson",
+			"Alfson"
+		};
+
+		public static SingletonRepository SINGLETON_REPOSITORY_REFERENCE = 
+			GameObject.Find ("SingletonRepository").GetComponent<SingletonRepository> ();
 		//================================================================================================
 
 	}
-
-	public static class WorldInteraction{
+	//====================================================================================================
+	public class WorldInteraction{
 
 		//================================================================================================
 		//[FindObjectAt2DPoint]//
@@ -59,8 +78,8 @@ namespace GameHelper{
 
 
 	}
-
-	public static class GameState{
+	//====================================================================================================
+	public class GameState{
 
 		//================================================================================================
 		//[PauseGame]//
@@ -83,5 +102,5 @@ namespace GameHelper{
 		//================================================================================================
 
 	}
-
+	//====================================================================================================
 }

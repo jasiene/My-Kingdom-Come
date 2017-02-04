@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class Hovel : Structure{
+public class Structure : Entity{
 
 	//================================================================================================
-	//[Hovel Variables]//
+	//[Structure Variables]//
 	//================================================================================================
+	public Queue<Action> actionQueue;
+	public Action currentAction;
+	public int maxActionsInQueue;
 
+	public float currentActionProgress = 0.0f;
+	public float currentActionLength = 0.0f;
 	//================================================================================================
 
 
@@ -26,8 +32,7 @@ public class Hovel : Structure{
 	//================================================================================================
 	protected override void Start () {
 		base.Start ();
-		performableActions.Add (new Place ("Place Hovel", "hovel"));
-		performableActions.Add (new Place ("Place Keep", "keep"));
+		actionQueue = new Queue<Action> ();
 	}
 	//================================================================================================
 
@@ -38,6 +43,36 @@ public class Hovel : Structure{
 	//================================================================================================
 	protected override void Update () {
 		base.Update ();
+		UpdateQueue ();
+	}
+	//================================================================================================
+
+
+
+	//================================================================================================
+	//[AddActionToQueue]// ---
+	//================================================================================================
+	public void AddActionToQueue (Action action) {
+		actionQueue.Enqueue (action);
+		currentAction = action;
+		currentActionLength = currentAction.GetActionLength ();
+	}
+	//================================================================================================
+
+
+
+	//================================================================================================
+	//[UpdateQueue]// ---
+	//================================================================================================
+	protected void UpdateQueue () {
+		if (actionQueue.Count > 0) {
+			currentActionProgress += Time.deltaTime * 2f;
+			if (currentActionProgress > currentActionLength) {
+				Action finishedAction = actionQueue.Dequeue ();
+				finishedAction.PerformAction ();
+				currentActionProgress = 0.0f;
+			}
+		}
 	}
 	//================================================================================================
 

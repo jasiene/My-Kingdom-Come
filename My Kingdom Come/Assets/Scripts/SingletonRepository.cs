@@ -6,10 +6,16 @@ public class SingletonRepository : MonoBehaviour{
 	//================================================================================================
 	//[SingletonRepository Variables]//
 	//================================================================================================
-	public Material projectorCircle;
-	public Material projectorSquare;
+	public Material PROJECTOR_CIRCLE;
+	public Material PROJECTOR_SQUARE;
 
-	public GameObject[] entities;
+	[HideInInspector] public Texture2D TEXTURE2D_RED;
+	[HideInInspector] public Texture2D TEXTURE2D_GREEN;
+	[HideInInspector] public Texture2D TEXTURE2D_BLUE;
+	[HideInInspector] public Texture2D TEXTURE2D_BLACK;
+	[HideInInspector] public Texture2D TEXTURE2D_WHITE;
+
+	public GameObject[] ENTITIES;
 	//================================================================================================
 
 
@@ -29,6 +35,26 @@ public class SingletonRepository : MonoBehaviour{
 	//================================================================================================
 	protected void Start () {
 
+		TEXTURE2D_RED = new Texture2D (1, 1);
+		TEXTURE2D_RED.SetPixel (0, 0, Color.red);
+		TEXTURE2D_RED.Apply ();
+
+		TEXTURE2D_GREEN = new Texture2D (1, 1);
+		TEXTURE2D_GREEN.SetPixel (0, 0, Color.green);
+		TEXTURE2D_GREEN.Apply ();
+
+		TEXTURE2D_BLUE = new Texture2D (1, 1);
+		TEXTURE2D_BLUE.SetPixel (0, 0, Color.blue);
+		TEXTURE2D_BLUE.Apply ();
+
+		TEXTURE2D_BLACK = new Texture2D (1, 1);
+		TEXTURE2D_BLACK.SetPixel (0, 0, Color.black);
+		TEXTURE2D_BLACK.Apply ();
+
+		TEXTURE2D_WHITE = new Texture2D (1, 1);
+		TEXTURE2D_WHITE.SetPixel (0, 0, Color.white);
+		TEXTURE2D_WHITE.Apply ();
+
 	}
 	//================================================================================================
 
@@ -47,11 +73,27 @@ public class SingletonRepository : MonoBehaviour{
 	//================================================================================================
 	//[GetEntity]// --- 
 	//================================================================================================
-	public GameObject GetEntity(string name){
-		foreach (GameObject entity in entities) {
+	public Entity GetEntity(string name){
+		foreach (GameObject entity in ENTITIES) {
 			Entity ent = entity.GetComponent<Entity> ();
 			if (ent && ent.entName.Equals (name)) {
-				return entity;
+				return ent;
+			}
+		}
+		return null;
+	}
+	//================================================================================================
+
+
+
+	//================================================================================================
+	//[GetEntityImage]// --- 
+	//================================================================================================
+	public Texture2D GetEntityImage(string name){
+		foreach (GameObject entity in ENTITIES) {
+			Entity ent = entity.GetComponent<Entity> ();
+			if (ent && ent.entName.Equals (name)) {
+				return ent.image;
 			}
 		}
 		return null;

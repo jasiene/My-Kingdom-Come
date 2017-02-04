@@ -1,79 +1,73 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
-public class Action {
+public class Character : Entity, IKillable, IDamageable<float> {
 
 	//================================================================================================
-	//[Action Variables]//
+	//[Character Variables]//
 	//================================================================================================
-	string actionName;
-	float actionLength;
-	Texture2D actionImage;
-	bool isQueueable;
+	[HideInInspector] public string characterName;
 	//================================================================================================
 
 
 
 	//================================================================================================
-	//[Constructor]// ---
+	//[Awake]// --- Called before Start, used to initialise variables before game
 	//================================================================================================
-	public Action(string actionName, float actionLength, Texture2D actionImage, bool isQueueable){
-		this.actionName = actionName;
-		this.actionLength = actionLength;
-		this.actionImage = actionImage;
-		this.isQueueable = isQueueable;
-	}
-	//================================================================================================
-
-
-	//================================================================================================
-	//[GetActionName]// ---
-	//================================================================================================
-	public string GetActionName(){
-		return actionName;
+	protected override void Awake () {
+		base.Awake ();
 	}
 	//================================================================================================
 
 
 
 	//================================================================================================
-	//[GetActionLength]// ---
+	//[Start]// --- Called before Update, used to pass any information after all initialisation
 	//================================================================================================
-	public float GetActionLength(){
-		return actionLength;
+	protected override void Start () {
+		base.Start ();
+		curHealth = baseHealth;
+
+		characterName = "";
+
+		characterName += GameHelper.GlobalVariables.CHARACTER_FIRST_NAMES [
+			Random.Range (0, GameHelper.GlobalVariables.CHARACTER_FIRST_NAMES.Length)
+		];
+
+		characterName += " " + GameHelper.GlobalVariables.CHARACTER_LAST_NAMES [
+			Random.Range (0, GameHelper.GlobalVariables.CHARACTER_LAST_NAMES.Length)
+		];
 	}
 	//================================================================================================
 
 
 
 	//================================================================================================
-	//[GetActionImage]// ---
+	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
-	public Texture2D GetActionImage(){
-		return actionImage;
+	protected override void Update () {
+		base.Update ();
 	}
 	//================================================================================================
 
 
 
 	//================================================================================================
-	//[GetIsQueueable]// ---
+	//[Kill]// ---
 	//================================================================================================
-	public bool GetIsQueueable(){
-		return isQueueable;
+	public void Kill(){
+
 	}
 	//================================================================================================
 
 
 
 	//================================================================================================
-	//[PerformAction]// ---
+	//[TakeDamage]// ---
 	//================================================================================================
-	public virtual void PerformAction(){
-		
+	public void TakeDamage(float damage){
+
 	}
 	//================================================================================================
-
 
 }
