@@ -40,7 +40,11 @@ public class PlayerInput : MonoBehaviour {
 	//[Update]// --- Called every frame to implement game behaviour
 	//================================================================================================
 	void Update () {
+
+		// If game is not paused
 		if (!GameHelper.GlobalVariables.GAME_PAUSED) {
+
+			// If player is not an AI
 			if (player.isHuman) {
 				if (player.isInDirectMode) {
 					//DIRECT CONTROL
@@ -48,11 +52,10 @@ public class PlayerInput : MonoBehaviour {
 					DirectModeKeysActivity ();
 				} else {
 					//RTS CONTROL
-					RTSModeCameraMovement ();
-					RTSModeCameraRotation ();
-					RTSModeCameraZoom ();
-					RTSModeMouseActivity ();
-					RTSModeKeysActivity ();
+					doCameraMovement ();
+					doCameraRotation ();
+					doCameraZoom ();
+					handleMouseClicks ();
 				}
 			}
 		}
@@ -64,7 +67,7 @@ public class PlayerInput : MonoBehaviour {
 	//================================================================================================
 	//[RTSModeCameraMovement]// --- Camera movement controls when in RTS mode
 	//================================================================================================
-	private void RTSModeCameraMovement () {
+	private void doCameraMovement () {
 		
 		float cameraMovementSpeed;
 
@@ -79,19 +82,9 @@ public class PlayerInput : MonoBehaviour {
 		float moveDirectionHorizontal = Input.GetAxisRaw("Horizontal");
 		float moveDirectionVertical = Input.GetAxisRaw("Vertical");
 
-		if (Input.GetKey (KeyCode.A)) {
-			plyCamera.Translate(Vector3.right * cameraMovementSpeed * moveDirectionHorizontal * Time.deltaTime);
-		}else if(Input.GetKey(KeyCode.D)){
-			plyCamera.Translate(Vector3.left * cameraMovementSpeed * -moveDirectionHorizontal * Time.deltaTime);
-		}
-
-		//Horizontal camera movement
-		if (Input.GetKey (KeyCode.W)) {
-			plyCamera.Translate(Vector3.forward * cameraMovementSpeed * moveDirectionVertical * Time.deltaTime);
-		}else if(Input.GetKey(KeyCode.S)){
-			plyCamera.Translate(Vector3.back * cameraMovementSpeed * -moveDirectionVertical * Time.deltaTime);
-		}
-
+		Vector3 movementDirection = new Vector3 (moveDirectionHorizontal, 0, moveDirectionVertical);
+		Vector3 movement = movementDirection * cameraMovementSpeed * Time.deltaTime;
+		plyCamera.Translate (movement);
 	}
 	//================================================================================================
 
@@ -100,7 +93,7 @@ public class PlayerInput : MonoBehaviour {
 	//================================================================================================
 	//[RTSModeCameraRotation]// --- Camera rotation controls when in RTS mode
 	//================================================================================================
-	private void RTSModeCameraRotation () {
+	private void doCameraRotation () {
 
 		float cameraRotationSpeed = GlobalVariables.CAMERA_ROTATION_SPEED;
 
@@ -118,7 +111,7 @@ public class PlayerInput : MonoBehaviour {
 	//================================================================================================
 	//[RTSModeCameraZoom]// --- Camera zoom controls when in RTS mode
 	//================================================================================================
-	private void RTSModeCameraZoom () {
+	private void doCameraZoom () {
 
 		float cameraScrollZoomSpeed = GlobalVariables.CAMERA_SCROLL_ZOOM_SPEED;
 
@@ -144,7 +137,7 @@ public class PlayerInput : MonoBehaviour {
 	//================================================================================================
 	//[RTSModeMouseActivity]// --- Mouse controls when in RTS mode
 	//================================================================================================
-	private void RTSModeMouseActivity () {
+	private void handleMouseClicks () {
 
 		//LEFT CLICK
 		if (Input.GetMouseButtonDown (0)) {
@@ -203,19 +196,6 @@ public class PlayerInput : MonoBehaviour {
 			}
 		}
 	}
-	//================================================================================================
-
-
-
-	//================================================================================================
-	//[RTSModeKeysActivity]// --- Camera movement controls when in RTS mode
-	//================================================================================================
-	private void RTSModeKeysActivity () {
-
-	}
-	//================================================================================================
-
-
 
 	//================================================================================================
 	//[DirectModeMouseActivity]// --- Mouse controls when in direct mode
