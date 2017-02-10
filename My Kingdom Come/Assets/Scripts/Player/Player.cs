@@ -121,7 +121,7 @@ public class Player : MonoBehaviour {
 	//================================================================================================
 	public void SpawnEntity (string entityToSpawnName, Vector3 positionToSpawnEntity, Quaternion rotationToSpawnEntity) {
 		Entity spawnedEntity = Instantiate (GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntity(entityToSpawnName), positionToSpawnEntity, rotationToSpawnEntity);
-		spawnedEntity.transform.parent = transform;
+		spawnedEntity.transform.parent = transform.GetComponentInChildren<UnitsManager>().transform;
 	}
 	//================================================================================================
 

@@ -6,7 +6,7 @@ public class Hovel : Structure{
 	//================================================================================================
 	//[Hovel Variables]//
 	//================================================================================================
-
+	protected Vector3 entitySpawnPoint;
 	//================================================================================================
 
 
@@ -27,9 +27,11 @@ public class Hovel : Structure{
 	protected override void Start () {
 		base.Start ();
 
-		performableActions.Add (new Place ("Place Hovel", 0, GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntityImage("hovel"), false, "hovel"));
-		performableActions.Add (new Place ("Place Keep", 0, GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntityImage("keep"), false, "keep"));
-		performableActions.Add (new Create ("Create Yeoman", 5, GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntityImage("yeoman"), true, "yeoman"));
+		entitySpawnPoint = transform.FindChild ("SpawnPoint").position;
+
+		performableActions.Add (new Place (player, "Place Hovel", 0, GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntityImage("hovel"), false, "hovel"));
+		performableActions.Add (new Place (player, "Place Keep", 0, GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntityImage("keep"), false, "keep"));
+		performableActions.Add (new Create (player, "Create Yeoman", 5, GameHelper.GlobalVariables.SINGLETON_REPOSITORY_REFERENCE.GetEntityImage("yeoman"), true, "yeoman", entitySpawnPoint, transform.rotation));
 	}
 	//================================================================================================
 

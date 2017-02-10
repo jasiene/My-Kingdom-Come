@@ -8,6 +8,8 @@ public class Create : Action {
 	//[Create Variables]//
 	//================================================================================================
 	string entityToCreate;
+	Vector3 entitySpawnPosition;
+	Quaternion entityRotation;
 	//================================================================================================
 
 
@@ -15,8 +17,10 @@ public class Create : Action {
 	//================================================================================================
 	//[Constructor]// ---
 	//================================================================================================
-	public Create(string actionName, float actionLength, Texture2D actionImage, bool isQueueable, string entityToCreate) : base(actionName, actionLength, actionImage, isQueueable){
+	public Create(Player player, string actionName, float actionLength, Texture2D actionImage, bool isQueueable, string entityToCreate, Vector3 entitySpawnPosition, Quaternion entityRotation) : base(player, actionName, actionLength, actionImage, isQueueable){
 		this.entityToCreate = entityToCreate;
+		this.entitySpawnPosition = entitySpawnPosition;
+		this.entityRotation = entityRotation;
 	}
 	//================================================================================================
 
@@ -26,7 +30,7 @@ public class Create : Action {
 	//[PerformAction]// ---
 	//================================================================================================
 	public override void PerformAction(){
-		Debug.Log ("Created " + entityToCreate);
+		player.SpawnEntity (entityToCreate, entitySpawnPosition, entityRotation);
 	}
 	//================================================================================================
 

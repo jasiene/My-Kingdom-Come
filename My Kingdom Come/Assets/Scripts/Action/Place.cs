@@ -15,7 +15,7 @@ public class Place : Action {
 	//================================================================================================
 	//[Constructor]// ---
 	//================================================================================================
-	public Place(string actionName, float actionLength, Texture2D actionImage, bool isQueueable, string entityToPlace) : base(actionName, actionLength, actionImage, isQueueable){
+	public Place(Player player, string actionName, float actionLength, Texture2D actionImage, bool isQueueable, string entityToPlace) : base(player, actionName, actionLength, actionImage, isQueueable){
 		this.entityToPlace = entityToPlace;
 	}
 	//================================================================================================

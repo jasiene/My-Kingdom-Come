@@ -7,10 +7,11 @@ public class Action {
 	//================================================================================================
 	//[Action Variables]//
 	//================================================================================================
-	string actionName;
-	float actionLength;
-	Texture2D actionImage;
-	bool isQueueable;
+	protected Player player;
+	protected string actionName;
+	protected float actionLength;
+	protected Texture2D actionImage;
+	protected bool isQueueable;
 	//================================================================================================
 
 
@@ -18,7 +19,8 @@ public class Action {
 	//================================================================================================
 	//[Constructor]// ---
 	//================================================================================================
-	public Action(string actionName, float actionLength, Texture2D actionImage, bool isQueueable){
+	public Action(Player player, string actionName, float actionLength, Texture2D actionImage, bool isQueueable){
+		this.player = player;
 		this.actionName = actionName;
 		this.actionLength = actionLength;
 		this.actionImage = actionImage;
