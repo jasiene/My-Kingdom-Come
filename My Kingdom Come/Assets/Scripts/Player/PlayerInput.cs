@@ -85,7 +85,25 @@ public class PlayerInput : MonoBehaviour {
 		Vector3 movementDirection = new Vector3 (moveDirectionHorizontal, 0, moveDirectionVertical);
 		Vector3 movement = movementDirection * cameraMovementSpeed * Time.deltaTime;
 		plyCamera.Translate (movement);
+
+		// If they are not panning with arrow keys.
+		if (moveDirectionHorizontal == 0 && moveDirectionVertical == 0) {
+			Vector3 middleOfScreen = new Vector3 (Screen.width/2, Screen.height/2, 0);
+
+			if (WorldInteraction.mouseIsOutsideScreen ()) {
+				Vector3 camDirection = (Input.mousePosition - middleOfScreen).normalized;
+
+				// For some reason mouse Position uses x and y so you have to switch the y with z.
+				camDirection.z = camDirection.y;
+				camDirection.y = 0;
+
+				plyCamera.Translate (camDirection * cameraMovementSpeed * Time.deltaTime);
+			}
+
+					
+		}
 	}
+		
 	//================================================================================================
 
 

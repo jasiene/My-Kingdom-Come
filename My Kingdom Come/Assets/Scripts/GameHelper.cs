@@ -61,7 +61,12 @@ namespace GameHelper{
 		}
 		//================================================================================================
 
-
+		public static bool mouseIsOutsideScreen() {
+			return Input.mousePosition.x <= 0f
+			|| Input.mousePosition.x >= Screen.width
+			|| Input.mousePosition.y <= 0f
+			|| Input.mousePosition.y >= Screen.height;
+		}
 
 		//================================================================================================
 		//[Find3DVectorAt2DPoint]//
